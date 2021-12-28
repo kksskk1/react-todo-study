@@ -11,9 +11,24 @@ class Todo extends React.Component {
         return(
             <Container>
                 <Input placeholder="할 일 입력" onKeyPress={this.handleInputKeyPress}/>
-                <TodoList todoList={this.state.todoList}/>
+                <TodoList todoList={this.state.todoList} handleClickRemove={this.handleClickRemove}/>
             </Container>
         );
+    }
+
+    handleClickRemove = index => {
+        if (window.confirm("목록에서 지우시겠습니까?")) {
+            this.setState(
+                state => ({
+                    todoList: [
+                        ...state.todoList.slice(0, index),
+                        ...state.todoList.slice(index + 1)
+                    ]
+                }),
+                () =>
+                    localStorage.setItem("todoList", JSON.stringify(this.state.todoList))
+            );
+        }
     }
 
     handleInputKeyPress = event => {
