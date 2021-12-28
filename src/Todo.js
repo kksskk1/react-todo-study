@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import TodoList from "./TodoList";
 
 class Todo extends React.Component {
     state = {
@@ -10,6 +11,7 @@ class Todo extends React.Component {
         return(
             <Container>
                 <Input placeholder="할 일 입력" onKeyPress={this.handleInputKeyPress}/>
+                <TodoList todoList={this.state.todoList}/>
             </Container>
         );
     }
@@ -32,6 +34,12 @@ class Todo extends React.Component {
             event.target.value = ""; // input 빈 값으로 초기화
         }
     };
+
+    componentDidMount() {
+        this.setState({
+            todoList: JSON.parse(localStorage.getItem("todoList")) || []
+        });
+    }
 }
 
 const Container = styled.div `
